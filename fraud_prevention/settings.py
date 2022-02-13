@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users.apps.UsersConfig'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'fraud_prevention.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        'NAME': 'django_mysql', # 数据库名
+        'NAME': 'fraud_prevention', # 数据库名
         'USER': 'root', # 账号
         'PASSWORD': 'root', # 密码
         'HOST': '127.0.0.1', # HOST
