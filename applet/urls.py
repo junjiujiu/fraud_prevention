@@ -1,6 +1,6 @@
 from django.urls import path,include
 
-from users.views import *
+from applet.views import *
 
 urlpatterns = [
     path('newslist/',listnews),

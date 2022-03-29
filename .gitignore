@@ -2,4 +2,4 @@
 venv/
 fraud_prevention/private.py
 */__pycache__/
-*/migrations/
+applet/migrations/
