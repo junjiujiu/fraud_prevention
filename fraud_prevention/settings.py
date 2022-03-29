@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from fraud_prevention.private import database
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,11 +85,11 @@ WSGI_APPLICATION = 'fraud_prevention.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        'NAME': 'fraud_prevention', # 数据库名
-        'USER': 'root', # 账号
-        'PASSWORD': 'root', # 密码
-        'HOST': '127.0.0.1', # HOST
-        'POST': 3306, # 端口
+        'NAME': database['database'], # 数据库名
+        'USER': database['username'], # 账号
+        'PASSWORD': database['password'], # 密码
+        'HOST': database['host'], # HOST
+        'POST': database['port'], # 端口
 
     }
 }
