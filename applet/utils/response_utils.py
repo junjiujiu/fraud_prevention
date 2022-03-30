@@ -51,6 +51,8 @@ def _template_response(code, data=None, msg=''):
         else:
             json_data = model_to_dict(data)
         data = json_data
+    else:
+        data = None
     return make_utf8_response({
         'code': code,
         'data': data,
