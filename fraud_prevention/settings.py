@@ -49,6 +49,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 自定义中间件
+    'applet.middlewares.ExceptionMiddleware'  # 拦截applet/API所有异常，返回json
 ]
 
 ROOT_URLCONF = 'fraud_prevention.urls'
