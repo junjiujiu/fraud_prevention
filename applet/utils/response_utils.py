@@ -1,7 +1,7 @@
 import collections
 
-from django.forms import model_to_dict
-from django.http import HttpResponse, JsonResponse
+from django.forms import model_to_dict as _model_to_dict
+from django.http import JsonResponse as _JsonResponse
 
 
 def success(data=None):
@@ -47,9 +47,9 @@ def _template_response(code, data=None, msg=''):
         elif isinstance(data, collections.Iterable):
             json_data = []
             for o in data:
-                json_data.append(model_to_dict(o))
+                json_data.append(_model_to_dict(o))
         else:
-            json_data = model_to_dict(data)
+            json_data = _model_to_dict(data)
         data = json_data
     else:
         data = None
@@ -65,4 +65,4 @@ def make_utf8_response(json_body):
     传入一个字典，返回一个json格式的http回复。
     确保response中的中文字符能够正常显示。
     """
-    return JsonResponse(json_body, json_dumps_params={'ensure_ascii':False})
+    return _JsonResponse(json_body, json_dumps_params={'ensure_ascii':False})

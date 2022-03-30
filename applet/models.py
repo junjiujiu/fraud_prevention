@@ -8,6 +8,7 @@ class User(models.Model):
     openid = models.CharField('openid', max_length=255)
     userName = models.CharField('用户名', max_length=255, null=True)
     avatarUrl = models.CharField('头像', max_length=255, null=True)
+    swindledNum = models.FloatField('被诈骗指数', default=100)
 
 
 class News(models.Model):
