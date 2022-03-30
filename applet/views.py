@@ -1,25 +1,68 @@
-from django.core import serializers
-from django.forms import model_to_dict
-from django.http import HttpResponse, JsonResponse
+from django.http import QueryDict
 from django.views.decorators.http import require_http_methods, require_POST
 
-from applet.models import News, AssessMessage
-from applet.services import sms_service
+from applet.models import News, AssessMessage, User
+from applet.services import sms_service, wx_service
 from applet.utils import response_utils
 
 @require_http_methods(['POST'])
 def login(request):
-    pass
+    code = request.POST.get('code', None)
+    if code:
+        openid = wx_service.get_openid(code)
+        u = User.objects.filter(openid__exact=openid).first()
+        if u:
+            return response_utils.success({'userid': u.id})
+        else:
+            return response_utils.data_not_found_error()
+    else:
+        return response_utils.arguments_error()
+
 
 @require_http_methods(['POST'])
 def create_user(request):
-    pass
+    data = request.POST
+    code = data.get('code', None)
+    username = data.get('userName', None)
+    avatar_url = data.get('avatarUrl', None)
+    if code and username and avatar_url:
+        openid = wx_service.get_openid(code)
+        u = User.objects.filter(openid__exact=openid)
+        if u:
+            return response_utils.data_exist_error()
+        else:
+            u = User(
+                openid=openid,
+                userName=username,
+                avatar_url=avatar_url
+            )
+            u.save()
+            return response_utils.success(u)
+    else:
+        return response_utils.arguments_error()
 
-@require_http_methods(['GET','PUT'])
+
+@require_http_methods(['GET', 'PUT'])
 def user(request, id):
-    if request.method == 'PUT':
-        swindledNum = request.PUT.get('swindledNum', None)
+    # 先统一获取用户信息
+    u = User.objects.filter(pk=id).first()
+    if not u:
+        return response_utils.data_not_found_error()
 
+    if request.method == 'GET':
+        return response_utils.success(u)
+
+    elif request.method == 'PUT':
+        data = QueryDict(request.body)
+        swindledNum = data.get('swindledNum', None)
+        if swindledNum:
+            u.swindledNum = swindledNum
+            u.save()
+            return response_utils.success()
+        else:
+            return response_utils.arguments_error()
+    else:
+        return response_utils.permission_error()
 
 
 @require_http_methods(['GET'])
