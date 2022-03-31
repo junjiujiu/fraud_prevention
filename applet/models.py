@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.db import models
 from django.utils import timezone
 
+
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     openid = models.CharField('openid', max_length=255)
@@ -15,7 +16,7 @@ class News(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField("标题", max_length=255)
     content = models.TextField("内容")
-    createTime = models.DateTimeField('创建时间',  null=True, default=timezone.now)
+    createTime = models.DateTimeField('创建时间', null=True, default=timezone.now)
     source = models.CharField("发起人", max_length=255)
     type = models.CharField("类型", default="1", choices=(('1', "近期新闻"), ('2', "经典案例")), max_length=1)
     img = models.CharField(max_length=255, null=True, blank=True)

@@ -8,10 +8,10 @@ def _code2Session(code):
     if appid and secret:
         request_url = 'https://api.weixin.qq.com/sns/jscode2session'
         url_params = {
-            'appid':appid,
-            'secret':secret,
-            'js_code':code,
-            'grant_type':'authorization_code'
+            'appid': appid,
+            'secret': secret,
+            'js_code': code,
+            'grant_type': 'authorization_code'
         }
         response = requests.get(request_url, params=url_params)
         response.raise_for_status()
@@ -29,4 +29,3 @@ def get_openid(code):
     if wx_json:
         return wx_json['openid']
     return None
-

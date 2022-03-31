@@ -5,6 +5,7 @@ from applet.models import News, AssessMessage, User
 from applet.services import sms_service, wx_service
 from applet.utils import response_utils
 
+
 @require_http_methods(['POST'])
 def login(request):
     code = request.POST.get('code', None)
@@ -34,7 +35,7 @@ def create_user(request):
             u = User(
                 openid=openid,
                 userName=username,
-                avatar_url=avatar_url
+                avatarUrl=avatar_url
             )
             u.save()
             return response_utils.success(u)
@@ -54,9 +55,9 @@ def user(request, id):
 
     elif request.method == 'PUT':
         data = QueryDict(request.body)
-        swindledNum = data.get('swindledNum', None)
-        if swindledNum:
-            u.swindledNum = swindledNum
+        swindle_num = data.get('swindledNum', None)
+        if swindle_num:
+            u.swindledNum = swindle_num
             u.save()
             return response_utils.success()
         else:
@@ -112,7 +113,7 @@ def recognition(request):
         sms = AssessMessage(
             userid=user_id,
             messageInfo=message,
-            percentage=1-percentage  # 传入是诈骗短信的概率
+            percentage=1 - percentage  # 传入是诈骗短信的概率
         )
         sms.save()
         return response_utils.success({'percentage': percentage})
@@ -128,5 +129,3 @@ def user_messages(request):
         return response_utils.success(result_data)
     else:
         return response_utils.arguments_error()
-
-
