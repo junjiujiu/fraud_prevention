@@ -2,6 +2,7 @@ from django.urls import path
 
 from applet.views import *
 
+
 USER_PREFIX = 'user'
 NEWS_PREFIX = 'news'
 SMS_PREFIX = 'recognition'
