@@ -5,8 +5,8 @@ _CURRENT_PATH = os.path.join(os.getcwd(), 'applet', 'services')
 
 
 def _word_frequency_counter(filename: str):
-    print("读取文件")
     file_path = os.path.join(_CURRENT_PATH, filename)
+    print("读取文件" + file_path)
     words_data = {}
     with open(file_path, "r", encoding="utf-8") as f:
         line_counter = 0
