@@ -109,11 +109,12 @@ def recognition(request):
     user_id = data.get('userid', None)
     message = data.get('messageInfo', None)
     if user_id and message:
-        percentage = sms_service.calculate_safe_percentage(message)
+        percentage = sms_service.calculate_insecurity_percentage(message)
+        percentage = max(min(percentage, 100), 0)  # 属于[0,100]
         sms = AssessMessage(
             userid=user_id,
             messageInfo=message,
-            percentage=1 - percentage  # 传入是诈骗短信的概率
+            percentage=percentage  # 传入是诈骗短信的概率
         )
         sms.save()
         return response_utils.success({'percentage': percentage})

@@ -1,13 +1,19 @@
 from jieba import lcut
+import os
 
-def word_frequency_counter(text: str):
+_CURRENT_PATH = os.path.join(os.getcwd(), 'applet', 'services')
+
+
+def _word_frequency_counter(filename: str):
+    print("读取文件")
+    file_path = os.path.join(_CURRENT_PATH, filename)
     words_data = {}
-    with open(text, "r", encoding="utf-8") as f:
+    with open(file_path, "r", encoding="utf-8") as f:
         line_counter = 0
         for line in f:
             line_counter += 1
-            text = lcut(line)
-            for word in text:
+            file_path = lcut(line)
+            for word in file_path:
                 if len(word) > 1 and "x" not in word:
                     if word not in words_data:
                         words_data[word] = 0
@@ -17,7 +23,7 @@ def word_frequency_counter(text: str):
     return words_data
 
 
-def Bayes_filter(txt: str, spam: dict, ham: dict):
+def _bayes_filter(txt: str, spam: dict, ham: dict):
     spam_rate = 1/12  # 垃圾短信占比
     ham_rate = 11/12  # 普通短信占比
     word_pos = 0.0
@@ -36,12 +42,12 @@ def Bayes_filter(txt: str, spam: dict, ham: dict):
     return word_pos / count  # 计算概率期望
 
 
+_spam_frequency = _word_frequency_counter("spam.txt")
+_ham_frequency = _word_frequency_counter("ham.txt")
 
-def calculate_safe_percentage(message: str) -> float:
-    spam_frequency = word_frequency_counter("spam.txt")
-    ham_frequency = word_frequency_counter("ham.txt")
-    text1 = str
-    safe = Bayes_filter(text1, spam_frequency, ham_frequency)
-    print("pos1", safe)
 
-    return safe
+def calculate_insecurity_percentage(message: str) -> float:
+    result = _bayes_filter(message, _spam_frequency, _ham_frequency)
+    insecurity_percentage = round(result*100, 1)  # safe为0.3334 则返回33.4
+    return insecurity_percentage
+
